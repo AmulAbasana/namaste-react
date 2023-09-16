@@ -1,40 +1,86 @@
-import { useState } from "react";
-import { RESTAURANT_LIST } from "../utils/mockData";
+import { useEffect, useState } from "react";
+import { SWIGGY_API_URL } from "../utils/const";
 import RestaurantCard from "./RestaurantCard";
+import Shimmer from "./Shimmer";
 
 const Body = () => {
-  const [restaurantList, setRestaurantList] = useState(RESTAURANT_LIST);
-  return (
+  const [restaurantList, setRestaurantList] = useState([]);
+  const [filteredList, setFilteredList] = useState([]);
+  const [searchText, setSearchText] = useState("");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const data = await fetch(SWIGGY_API_URL);
+    const json = await data.json();
+
+    setRestaurantList(
+      json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
+    setFilteredList(
+      json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
+  };
+
+  return restaurantList?.length ? (
     <div className="body">
-      <div className="filter-btns">
+      <div className="filter">
+        <div className="search">
+          <input
+            type="text"
+            className="search-box"
+            value={searchText}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+          />
+          <button
+            type="button"
+            onClick={() => {
+              let updatedList = restaurantList.filter((res) =>
+                res.info.name.toLowerCase().includes(searchText.toLowerCase())
+              );
+              setFilteredList(updatedList);
+            }}
+          >
+            Search
+          </button>
+        </div>
         <button
           className="top-rated-btn"
           onClick={() => {
-            const filteredList = RESTAURANT_LIST.filter(
+            const updatedList = restaurantList.filter(
               (res) => res.info.avgRating > 4
             );
-            setRestaurantList(filteredList);
+            setFilteredList(updatedList);
           }}
         >
           Top Rated Restaurant
         </button>
-        {restaurantList !== RESTAURANT_LIST && (
-          <button
-            className="clear-btn"
-            onClick={() => {
-              setRestaurantList(RESTAURANT_LIST);
-            }}
-          >
-            Clear
-          </button>
-        )}
+        <button
+          className="clear-btn"
+          onClick={() => {
+            setSearchText("");
+            setFilteredList(restaurantList);
+          }}
+        >
+          Clear
+        </button>
       </div>
-      <div className="retro-container">
-        {restaurantList.map((restaurant) => (
-          <RestaurantCard key={restaurant.info.id} resData={restaurant} />
-        ))}
-      </div>
+      {!filteredList?.length && restaurantList?.length ? (
+        <h3>No Result found</h3>
+      ) : (
+        <div className="retro-container">
+          {filteredList.map((restaurant) => (
+            <RestaurantCard key={restaurant.info.id} resData={restaurant} />
+          ))}
+        </div>
+      )}
     </div>
+  ) : (
+    <Shimmer />
   );
 };
 
