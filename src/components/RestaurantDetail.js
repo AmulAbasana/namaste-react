@@ -1,26 +1,14 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { RESTAURANT_DETAIL_URL } from "../utils/const";
+import useRestaurantDetail from "../utils/hooks/useRestaurantDetail";
 import Accordian from "./Accordinan";
 import Shimmer from "./Shimmer";
 
 const RestaurantDetail = () => {
-  const [restInfo, setRestInfo] = useState(null);
   const { resId } = useParams();
 
-  useEffect(() => {
-    fetchRestaurant();
-  }, []);
+  const resDetail = useRestaurantDetail(resId);
 
-  const fetchRestaurant = async () => {
-    const data = await fetch(RESTAURANT_DETAIL_URL + resId);
-
-    const json = await data.json();
-    console.log("Json :: ", json?.data?.cards);
-    setRestInfo(json?.data?.cards);
-  };
-
-  if (restInfo === null) return <Shimmer />;
+  if (resDetail === null) return <Shimmer />;
 
   const {
     name,
@@ -30,7 +18,7 @@ const RestaurantDetail = () => {
     sla,
     avgRatingString,
     totalRatingsString,
-  } = restInfo[0]?.card?.card?.info;
+  } = resDetail[0]?.card?.card?.info;
 
   return (
     <div className="restaurant-detail">
@@ -54,7 +42,7 @@ const RestaurantDetail = () => {
         </div>
       </div>
       <div className="restaurant-menu">
-        {restInfo[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.map(
+        {resDetail[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.map(
           (category) => {
             const { title, itemCards } = category?.card?.card;
             return category?.card?.card["@type"] !==

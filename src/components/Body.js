@@ -1,41 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { SWIGGY_API_URL } from "../utils/const";
+import useRestaurantList from "../utils/hooks/useRestaurantList";
 import RestaurantCard from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 
 const Body = () => {
-  const [restaurantList, setRestaurantList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [searchText, setSearchText] = useState("");
 
+  const restaurantList = useRestaurantList();
+
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  const filterAPIData = (cards) => {
-    return cards.filter(
-      (card) =>
-        card?.card?.card["@type"] ===
-          "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget" &&
-        card?.card?.card?.gridElements
-    );
-  };
-
-  const fetchData = async () => {
-    const data = await fetch(SWIGGY_API_URL);
-    const json = await data.json();
-
-    const restaurantsCard = filterAPIData(json?.data?.cards)[0];
-    const restaurants =
-      restaurantsCard?.card?.card?.gridElements?.infoWithStyle?.restaurants;
-
-    // const restaurants =
-    //   json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
-    //     ?.restaurants;
-    setRestaurantList(restaurants);
-    setFilteredList(restaurants);
-  };
+    setFilteredList(restaurantList);
+  }, [restaurantList]);
 
   return restaurantList?.length ? (
     <div className="body">

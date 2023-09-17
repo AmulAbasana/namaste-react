@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { LOGO_URL } from "../utils/const";
 
-const Header = () => {
+const Header = (props) => {
+  const { isOnline } = props;
+
   return (
     <div className="header">
       <div className="logo-container">
@@ -9,6 +11,7 @@ const Header = () => {
       </div>
       <div className="nav-items">
         <ul>
+          <li>Online : {isOnline ? "✅" : "🔴"}</li>
           <li>
             <Link to="/">Home</Link>
           </li>
