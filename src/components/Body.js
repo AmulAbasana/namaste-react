@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { SWIGGY_API_URL } from "../utils/const";
 import RestaurantCard from "./RestaurantCard";
 import Shimmer from "./Shimmer";
@@ -12,16 +13,28 @@ const Body = () => {
     fetchData();
   }, []);
 
+  const filterAPIData = (cards) => {
+    return cards.filter(
+      (card) =>
+        card?.card?.card["@type"] ===
+          "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget" &&
+        card?.card?.card?.gridElements
+    );
+  };
+
   const fetchData = async () => {
     const data = await fetch(SWIGGY_API_URL);
     const json = await data.json();
 
-    setRestaurantList(
-      json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-    setFilteredList(
-      json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
+    const restaurantsCard = filterAPIData(json?.data?.cards)[0];
+    const restaurants =
+      restaurantsCard?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+
+    // const restaurants =
+    //   json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
+    //     ?.restaurants;
+    setRestaurantList(restaurants);
+    setFilteredList(restaurants);
   };
 
   return restaurantList?.length ? (
@@ -74,7 +87,12 @@ const Body = () => {
       ) : (
         <div className="retro-container">
           {filteredList.map((restaurant) => (
-            <RestaurantCard key={restaurant.info.id} resData={restaurant} />
+            <Link
+              key={restaurant.info.id}
+              to={"/restaurants/" + restaurant.info.id}
+            >
+              <RestaurantCard resData={restaurant} />
+            </Link>
           ))}
         </div>
       )}
