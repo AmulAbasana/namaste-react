@@ -179,3 +179,9 @@
   text-decoration: none;
   color: inherit;
 }
+
+.user-card {
+  padding: 10px;
+  border: 1px solid brown;
+  margin: 10px;
+}
