@@ -13,7 +13,9 @@ const useRestaurantList = () => {
       (card) =>
         card?.card?.card["@type"] ===
           "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget" &&
-        card?.card?.card?.gridElements
+        card?.card?.card?.gridElements &&
+        card?.card?.card?.gridElements?.infoWithStyle["@type"] ===
+          "type.googleapis.com/swiggy.presentation.food.v2.FavouriteRestaurantInfoWithStyle"
     );
   };
 

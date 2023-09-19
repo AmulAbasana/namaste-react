@@ -21,27 +21,29 @@ const RestaurantDetail = () => {
   } = resDetail[0]?.card?.card?.info;
 
   return (
-    <div className="restaurant-detail">
-      <div className="restaurant-info">
-        <div className="basic-info">
+    <div className="my-4 mx-48 p-4">
+      <div className="">
+        <div className="flex justify-between border-b-2 border-dotted py-4">
           <div>
-            <p className="name">{name}</p>
-            <p className="cuisines">{cuisines.join(", ")}</p>
-            <p className="cuisines">
+            <p className="text-lg text-black font-bold">{name}</p>
+            <p className="my-2 text-sm text-slate-400">{cuisines.join(", ")}</p>
+            <p className="text-sm text-slate-400">
               {areaName}, {sla?.lastMileTravelString}
             </p>
           </div>
-          <div className="rating-info">
-            <p className="star">{avgRatingString}</p>
-            <p className="review">{totalRatingsString}</p>
+          <div className="border border-solid rounded-lg text-center p-1">
+            <p className="border-b-2 border-solid text-green-700 font-bold p-1">
+              {avgRatingString}
+            </p>
+            <p className="py-2 text-slate-600">{totalRatingsString}</p>
           </div>
         </div>
-        <div className="other-info">
-          <p>{sla.slaString}</p>
-          <p>{costForTwoMessage}</p>
+        <div className="flex my-2 py-2 border-b-2 border-solid">
+          <p className="text-gray-700 font-bold mr-5">{sla.slaString}</p>
+          <p className="text-gray-700 font-bold mr-5">{costForTwoMessage}</p>
         </div>
       </div>
-      <div className="restaurant-menu">
+      <div className="my-2">
         {resDetail[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.map(
           (category) => {
             const { title, itemCards } = category?.card?.card;

@@ -13,8 +13,11 @@
   "author": "Amul Abasana",
   "license": "ISC",
   "devDependencies": {
+    "install": "^0.13.0",
     "parcel": "^2.9.0",
-    "process": "^0.11.10"
+    "postcss": "^8.4.29",
+    "process": "^0.11.10",
+    "tailwindcss": "^3.3.3"
   },
   "dependencies": {
     "react": "^18.2.0",

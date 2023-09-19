@@ -7,16 +7,22 @@ const RestaurantCard = (props) => {
     resData.info;
 
   return (
-    <div className="restro-card">
+    <div className="p-4 bg-gray-200 m-4 w-[200px] rounded-lg shadow-lg h-[450px]">
       <img
-        className="restro-logo"
+        className="rounded-lg w-48 h-48"
         src={RESTAURANT_ICON_BASE_URL + cloudinaryImageId}
       />
-      <h3>{name}</h3>
-      <h4>{cuisines.join(", ")}</h4>
-      <h4>{costForTwo}</h4>
-      <h4>{avgRating} stars</h4>
-      <h4>{sla.deliveryTime} Mins</h4>
+      <h3 className="py-2 font-bold text-black text-md">{name}</h3>
+      <h4 className="py-2 font-bold text-gray-500 text-sm">
+        {cuisines.join(", ")}
+      </h4>
+      <h4 className="py-2 font-bold text-black text-sm">{costForTwo}</h4>
+      <h4 className="py-2 font-bold text-green-900 text-sm">
+        {avgRating} stars
+      </h4>
+      <h4 className="py-2 font-bold text-blue-700 text-sm">
+        {sla.deliveryTime} Mins
+      </h4>
     </div>
   );
 };

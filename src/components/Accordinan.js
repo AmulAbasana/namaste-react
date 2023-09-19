@@ -8,19 +8,21 @@ const Accordian = (props) => {
 
   return (
     <div
-      className="restaurant-menu-accordian"
+      className="pr-10 my-10 border-b-8 border-solid"
       onClick={() => {
         setIsOpen(!isOpen);
       }}
     >
-      <div className="restaurant-menu-accordian-title">
-        <h3>
+      <div className="flex justify-between">
+        <h3 className="text-black font-bold text-lg">
           {title} ({itemCards?.length})
         </h3>
-        <h3>{isOpen ? "-" : "+"}</h3>
+        <h3 className="text-black font-bold text-lg cursor-pointer">
+          {isOpen ? "-" : "+"}
+        </h3>
       </div>
       {isOpen && (
-        <div className="menu-items">
+        <div className="">
           {itemCards.map((item) => {
             const {
               name,
@@ -32,7 +34,10 @@ const Accordian = (props) => {
               defaultPrice,
             } = item?.card?.info;
             return (
-              <div key={id} className="menu-item">
+              <div
+                key={id}
+                className="flex justify-between my-2 border-b-2 border-solid py-4"
+              >
                 <div>
                   <img
                     src={
@@ -42,14 +47,18 @@ const Accordian = (props) => {
                     }
                     alt="isVeg"
                   />
-                  <h3>{name}</h3>
-                  <p>₹ {(price || defaultPrice) / 100}</p>
-                  <p className="menu-item-description">{description}</p>
+                  <h3 className="text-black font-semibold text-base">{name}</h3>
+                  <p className="text-gray-800 text-base py-2">
+                    ₹ {(price || defaultPrice) / 100}
+                  </p>
+                  <p className="text-gray-700 text-sm py-2 w-[70%]">
+                    {description}
+                  </p>
                 </div>
                 {imageId && (
                   <div>
                     <img
-                      className="menu-item-img"
+                      className="w-[118px] h-[96px] rounded-lg object-cover"
                       src={RESTAURANT_MENU_IMG_URL + imageId}
                     />
                   </div>
