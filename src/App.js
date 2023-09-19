@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 // import About from "./components/About";
@@ -7,26 +7,30 @@ import Contact from "./components/Contact";
 import Error from "./components/Error";
 import Header from "./components/Header";
 import RestaurantDetail from "./components/RestaurantDetail";
+import UserContext from "./utils/context/UserContext";
 import useOnlineStatus from "./utils/hooks/useOnlineStatus";
 
 const About = React.lazy(() => import("./components/About"));
 const Body = React.lazy(() => import("./components/Body"));
 
 const AppLayout = () => {
+  const [userName, setUserName] = useState("Default user");
   const isOnline = useOnlineStatus();
 
   return (
-    <div className="appLayout">
-      <Header isOnline={isOnline} />
-      {isOnline ? (
-        <Outlet />
-      ) : (
-        <div>
-          Oops!! Looks like you are offline! Please check your internet
-          Connection
-        </div>
-      )}
-    </div>
+    <UserContext.Provider value={{ userName, setUserName }}>
+      <div className="appLayout">
+        <Header isOnline={isOnline} />
+        {isOnline ? (
+          <Outlet />
+        ) : (
+          <div>
+            Oops!! Looks like you are offline! Please check your internet
+            Connection
+          </div>
+        )}
+      </div>
+    </UserContext.Provider>
   );
 };
 

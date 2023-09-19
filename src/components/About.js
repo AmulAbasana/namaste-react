@@ -1,4 +1,5 @@
 import React from "react";
+import UserContext from "../utils/context/UserContext";
 import UserClass from "./UserClass";
 
 class About extends React.Component {
@@ -15,6 +16,14 @@ class About extends React.Component {
     console.log("About render called : ");
     return (
       <div>
+        <div>
+          User Name:
+          <UserContext.Consumer>
+            {(data) => (
+              <h1 className="py-2 text-black font-bold">{data.userName}</h1>
+            )}
+          </UserContext.Consumer>
+        </div>
         {/* <User name="Amul" location="Ahmedabad" /> */}
         <UserClass name="First" location="Ahmedabad Class" />
         <UserClass name="Second" location="Ahmedabad Class" />

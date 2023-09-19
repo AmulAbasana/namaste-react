@@ -1,4 +1,6 @@
+import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
+import UserContext from "../utils/context/UserContext";
 import useRestaurantDetail from "../utils/hooks/useRestaurantDetail";
 import Accordian from "./Accordinan";
 import Shimmer from "./Shimmer";
@@ -7,6 +9,10 @@ const RestaurantDetail = () => {
   const { resId } = useParams();
 
   const resDetail = useRestaurantDetail(resId);
+
+  const { userName } = useContext(UserContext);
+
+  const [activeAccordianIndex, setActiveAccordianIndex] = useState(-1);
 
   if (resDetail === null) return <Shimmer />;
 
@@ -23,6 +29,11 @@ const RestaurantDetail = () => {
   return (
     <div className="my-4 mx-48 p-4">
       <div className="">
+        <div>
+          <p className="text-xl text-black font-bold my-4">
+            Welcome {userName}
+          </p>
+        </div>
         <div className="flex justify-between border-b-2 border-dotted py-4">
           <div>
             <p className="text-lg text-black font-bold">{name}</p>
@@ -45,11 +56,21 @@ const RestaurantDetail = () => {
       </div>
       <div className="my-2">
         {resDetail[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.map(
-          (category) => {
+          (category, index) => {
             const { title, itemCards } = category?.card?.card;
             return category?.card?.card["@type"] !==
               "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory" ? null : (
-              <Accordian key={title} title={title} itemCards={itemCards} />
+              <Accordian
+                key={title}
+                title={title}
+                itemCards={itemCards}
+                isOpen={activeAccordianIndex === index}
+                onAccordianClick={() =>
+                  setActiveAccordianIndex(
+                    activeAccordianIndex !== index ? index : -1
+                  )
+                }
+              />
             );
           }
         )}

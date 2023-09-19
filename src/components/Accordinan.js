@@ -1,25 +1,18 @@
-import { useState } from "react";
 import { RESTAURANT_MENU_IMG_URL } from "../utils/const";
 
 const Accordian = (props) => {
-  const { title, itemCards } = props;
-
-  const [isOpen, setIsOpen] = useState(false);
+  const { title, itemCards, isOpen, onAccordianClick } = props;
 
   return (
-    <div
-      className="pr-10 my-10 border-b-8 border-solid"
-      onClick={() => {
-        setIsOpen(!isOpen);
-      }}
-    >
-      <div className="flex justify-between">
+    <div className="pr-10 my-10 border-b-8 border-solid">
+      <div
+        className="flex justify-between cursor-pointer"
+        onClick={onAccordianClick}
+      >
         <h3 className="text-black font-bold text-lg">
           {title} ({itemCards?.length})
         </h3>
-        <h3 className="text-black font-bold text-lg cursor-pointer">
-          {isOpen ? "-" : "+"}
-        </h3>
+        <h3 className="text-black font-bold text-lg">{isOpen ? "-" : "+"}</h3>
       </div>
       {isOpen && (
         <div className="">
@@ -38,7 +31,7 @@ const Accordian = (props) => {
                 key={id}
                 className="flex justify-between my-2 border-b-2 border-solid py-4"
               >
-                <div>
+                <div className="w-10/12">
                   <img
                     src={
                       isVeg
@@ -56,9 +49,9 @@ const Accordian = (props) => {
                   </p>
                 </div>
                 {imageId && (
-                  <div>
+                  <div className="w-2/12 text-center">
                     <img
-                      className="w-[118px] h-[96px] rounded-lg object-cover"
+                      className="rounded-lg object-cover"
                       src={RESTAURANT_MENU_IMG_URL + imageId}
                     />
                   </div>

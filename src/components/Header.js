@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { LOGO_URL } from "../utils/const";
+import UserContext from "../utils/context/UserContext";
 
 const Header = (props) => {
   const { isOnline } = props;
+  const data = useContext(UserContext);
 
   return (
     <div className="flex bg-green-100 justify-between">
@@ -22,6 +25,7 @@ const Header = (props) => {
             <Link to="/contact">Contact Us</Link>
           </li>
           <li className="px-4">Cart</li>
+          <li className="px-4 font-bold text-black">{data.userName}</li>
         </ul>
       </div>
     </div>
