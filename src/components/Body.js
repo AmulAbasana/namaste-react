@@ -20,7 +20,7 @@ const Body = () => {
     setFilteredList(restaurantList);
   }, [restaurantList]);
 
-  return restaurantList?.length ? (
+  return restaurantList?.length > 0 ? (
     <div className="my-4 mx-10 p-4">
       <div>
         <div className="flex my-4 justify-center">
