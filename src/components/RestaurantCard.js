@@ -3,6 +3,8 @@ import { RESTAURANT_ICON_BASE_URL } from "../utils/const";
 const RestaurantCard = (props) => {
   const { resData } = props;
 
+  console.log("resData :: ", resData);
+
   const { name, cloudinaryImageId, costForTwo, cuisines, avgRating, sla } =
     resData.info;
 
